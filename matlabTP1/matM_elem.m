@@ -22,6 +22,12 @@ x1 = S1(1); y1 = S1(2);
 x2 = S2(1); y2 = S2(2);
 x3 = S3(1); y3 = S3(2);
 
+xc1 = (x1+x2)/2; yc1 = (y1+y2)/2;
+xc2 = (x1+x3)/2; yc2 = (y1+y3)/2;
+xc3 = (x3+x2)/2; yc3 = (y3+y2)/2;
+
+lambda = [(y2-y3)*(xc1-x3)-(x2-x3)*(yc1-y3),(y2-y3)*(xc2-x3)-(x2-x3)*(yc2-y3),(y2-y3)*(xc3-x3)-(x2-x3)*(yc3-y3);(y3-y1)*(xc1-x1)-(x3-x1)*(yc1-y1),(y3-y1)*(xc2-x1)-(x3-x1)*(yc2-y1),(y3-y1)*(xc3-x1)-(x3-x1)*(yc3-y1);(y1-y2)*(xc1-x2)-(x1-x2)*(yc1-y2),(y1-y2)*(xc2-x2)-(x1-x2)*(yc2-y2),(y1-y2)*(xc3-x2)-(x1-x2)*(yc3-y2)];
+
 
 % D est, au signe pres, deux fois l'aire du triangle
 D = ((x2-x1)*(y3-y1) - (y2-y1)*(x3-x1));
@@ -34,9 +40,8 @@ end;
 Mel = zeros(3,3);
 for i=1:3
 	for j=1:3
-		% A COMPLETER
-		Mel(i,j) = 
-	end; % j
+		Mel(i,j) = (1/(6*D))*(lambda(i,1)*lambda(j,1)+lambda(i,2)*lambda(j,2)+lambda(i,3)*lambda(j,3));
+    end; % j
 end; % i
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
