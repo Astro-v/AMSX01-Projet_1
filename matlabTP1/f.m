@@ -11,7 +11,7 @@ function val = f(x,y)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %A COMPLETER
-val = cos(pi*x).*cos(2*pi*y);
+val = (1+5*pi^2)*cos(pi*x).*cos(2*pi*y);
 
 end
 

@@ -42,8 +42,8 @@ for l=1:Nbtri
   % On fait l'assemmblage de la matrice globale et du second membre
   for i=[1:3]
       for j=[1:3]
-          MM(Numtri(l,i),Numtri(l,j))=Mel(i,j);
-          KK(Numtri(l,i),Numtri(l,j))=Kel(i,j);
+          MM(Numtri(l,i),Numtri(l,j))=MM(Numtri(l,i),Numtri(l,j))+Mel(i,j);
+          KK(Numtri(l,i),Numtri(l,j))=KK(Numtri(l,i),Numtri(l,j))+Kel(i,j);
       end
   end
 
@@ -63,15 +63,18 @@ UU = (MM+KK)\LL;
 % -------------
 affiche(UU, Numtri, Coorneu, sprintf('Neumann - %s', nom_maillage));
 
-validation = 'non';
+validation = 'oui';
 % validation
 % ----------
 if strcmp(validation,'oui')
 UU_exact = cos(pi*Coorneu(:,1)).*cos(2*pi*Coorneu(:,2));
+affiche(UU_exact, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
+
 % Calcul de l erreur L2
-% A COMPLETER
+EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU)
+%affiche(EE_L2, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
 % Calcul de l erreur H1
-% A COMPLETER
+EE_H1 = (UU_exact-UU)'*(MM+KK)*(UU_exact-UU)
 % attention de bien changer le terme source (dans FF)
 end
 

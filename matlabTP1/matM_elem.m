@@ -40,7 +40,12 @@ end;
 Mel = zeros(3,3);
 for i=1:3
 	for j=1:3
-		Mel(i,j) = (1/(6*D))*(lambda(i,1)*lambda(j,1)+lambda(i,2)*lambda(j,2)+lambda(i,3)*lambda(j,3));
+		% Mel(i,j) = (1/(6*D))*(lambda(i,1)*lambda(j,1)+lambda(i,2)*lambda(j,2)+lambda(i,3)*lambda(j,3));
+        if i==j
+            Mel(i,j) = D/12;
+        else
+            Mel(i,j) = D/24;
+        end
     end; % j
 end; % i
 
