@@ -36,17 +36,16 @@ end;
 
 w_hat = [-9/32,25/96,25/96,25/96];
 M_hat = [1/3,1/3;1/5,1/5;1/5,3/5;3/5,1/5];
-dF = [x2-x1 x3-x1;y2-y1 y3-y1];
-
-
+dF = [x2-x1,x3-x1;y2-y1,y3-y1];
+gradW = [-1,1,0;-1,0,1];
 % calcul de la matrice de raideur
 % -------------------------------
 Kel = zeros(3,3);
 for i=1:3
   for j=1:3
-    % norm(i,:)*norm(j,:)'/(2*D);
+    % Kel(i,j) = norm(i,:)*norm(j,:)'/(2*D);
     for k=1:4
-        Kel(i,j) = Kel(i,j) + w_hat(k)*(A(x1+M_hat(k,1)*(x2-x1)+M_hat(k,2)*(x3-x1),y1+M_hat(k,1)*(y2-y1)+M_hat(k,2)*(y3-y1))*(1\(dF'))*norm(i,:)')'*(1\(dF'))*norm(j,:)'*det(dF);
+        Kel(i,j) = Kel(i,j) + w_hat(k)*(A(x1+M_hat(k,1)*(x2-x1)+M_hat(k,2)*(x3-x1),y1+M_hat(k,1)*(y2-y1)+M_hat(k,2)*(y3-y1))*((dF')^(-1)*gradW(:,i)))'*((dF')^(-1)*gradW(:,j))*abs(D);
     end
   end; % j
 end; % i

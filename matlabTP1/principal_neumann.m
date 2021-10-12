@@ -13,7 +13,7 @@
 
 % lecture du maillage et affichage
 % ---------------------------------
-nom_maillage = 'geomCarre.msh';
+nom_maillage = 'geomCarre01.msh';
 [Nbpt,Nbtri,Coorneu,Refneu,Numtri,Reftri,Nbaretes,Numaretes,Refaretes]=lecture_msh(nom_maillage);
 
 % ----------------------
@@ -23,7 +23,8 @@ nom_maillage = 'geomCarre.msh';
 % declarations
 % ------------
 KK = sparse(Nbpt,Nbpt); % matrice de rigidite
-MM = sparse(Nbpt,Nbpt); % matrice de rigidite
+KKb = sparse(Nbpt,Nbpt); % matrice de rigidite avec A = 1
+MM = sparse(Nbpt,Nbpt); % matrice de masse
 LL = zeros(Nbpt,1);     % vecteur second membre
 
 % boucle sur les triangles
@@ -38,12 +39,15 @@ for l=1:Nbtri
    Kel=matK_elem(S1, S2, S3);
            
    Mel=matM_elem(S1, S2, S3);
+   
+   Kbel=matKb_elem(S1, S2, S3);
     
   % On fait l'assemmblage de la matrice globale et du second membre
   for i=[1:3]
       for j=[1:3]
           MM(Numtri(l,i),Numtri(l,j))=MM(Numtri(l,i),Numtri(l,j))+Mel(i,j);
           KK(Numtri(l,i),Numtri(l,j))=KK(Numtri(l,i),Numtri(l,j))+Kel(i,j);
+          KKb(Numtri(l,i),Numtri(l,j))=KKb(Numtri(l,i),Numtri(l,j))+Kbel(i,j);
       end
   end
 
@@ -63,19 +67,34 @@ UU = (MM+KK)\LL;
 % -------------
 affiche(UU, Numtri, Coorneu, sprintf('Neumann - %s', nom_maillage));
 
-validation = 'oui';
+validation = 'non';
 % validation
 % ----------
 if strcmp(validation,'oui')
-UU_exact = cos(pi*Coorneu(:,1)).*cos(2*pi*Coorneu(:,2));
-affiche(UU_exact, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
+UU_exact = cos(2*pi*Coorneu(:,1)).*cos(2*pi*Coorneu(:,2));
+%UU_exact = Coorneu(:,1)+Coorneu(:,2);
+% affiche(UU_exact, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
 
 % Calcul de l erreur L2
-EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU)
+EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU);
+log(sqrt(EE_L2/(UU_exact'*MM*UU_exact)))
 %affiche(EE_L2, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
 % Calcul de l erreur H1
-EE_H1 = (UU_exact-UU)'*(MM+KK)*(UU_exact-UU)
+EE_H1 = (UU_exact-UU)'*(MM+KKb)*(UU_exact-UU);
+log(sqrt(EE_H1/(UU_exact'*(MM+KKb)*UU_exact)))
 % attention de bien changer le terme source (dans FF)
+end
+if 0
+    h = [0.2;0.1;0.05;0.025;0.0125];
+    err_L2 = [-0.2706;-2.0385;-4.0938;-5.7271;-7.1242];
+    err_H1 = [-1.6742;-2.8822;-4.2378;-5.5164;-6.6647];
+    h = log(1./h);
+
+    figure()
+    plot(h,err_L2,h,err_H1)
+    legend('Norme L^2','Norme H^1')
+    xlabel({'$\log(1/h)$'},'Interpreter','latex')
+    ylabel({'$\log(\Vert u-u_h\Vert/\Vert u\Vert)$'},'Interpreter','latex')
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
