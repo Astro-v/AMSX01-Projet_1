@@ -10,9 +10,9 @@ function val = mat_A(x,y)
 % OUTPUT - val: valeur de la matrice sur ce point.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%val = [1 0;0 1];
+val = [1 0;0 1];
 
-val = sin(2*pi*x)*sin(2*pi*y)+2;
+%val = sin(2*pi*x)*sin(2*pi*y)+2;
 
 %val = [2+sin(2*pi*x/10) 0;0 2+sin(2*pi*x/10)];
 

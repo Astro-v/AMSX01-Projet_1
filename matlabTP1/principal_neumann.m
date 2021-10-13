@@ -67,27 +67,26 @@ UU = (MM+KK)\LL;
 % -------------
 affiche(UU, Numtri, Coorneu, sprintf('Neumann - %s', nom_maillage));
 
-validation = 'non';
+validation = 'oui';
 % validation
 % ----------
 if strcmp(validation,'oui')
 UU_exact = cos(2*pi*Coorneu(:,1)).*cos(2*pi*Coorneu(:,2));
 %UU_exact = Coorneu(:,1)+Coorneu(:,2);
-% affiche(UU_exact, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
+affiche(UU_exact, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
 
 % Calcul de l erreur L2
 EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU);
 log(sqrt(EE_L2/(UU_exact'*MM*UU_exact)))
-%affiche(EE_L2, Numtri, Coorneu, sprintf('Neumann exact - %s', nom_maillage));
 % Calcul de l erreur H1
-EE_H1 = (UU_exact-UU)'*(MM+KKb)*(UU_exact-UU);
-log(sqrt(EE_H1/(UU_exact'*(MM+KKb)*UU_exact)))
+EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU);
+log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)))
 % attention de bien changer le terme source (dans FF)
 end
-if 0
+if 1
     h = [0.2;0.1;0.05;0.025;0.0125];
     err_L2 = [-0.2706;-2.0385;-4.0938;-5.7271;-7.1242];
-    err_H1 = [-1.6742;-2.8822;-4.2378;-5.5164;-6.6647];
+    err_H1 = [-1.7637;-2.9095;-4.2399;-5.5142;-6.6609];
     h = log(1./h);
 
     figure()
