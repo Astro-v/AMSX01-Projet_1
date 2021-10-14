@@ -15,7 +15,6 @@
 % ---------------------------------
 nom_maillage = 'geomCarre01.msh';
 [Nbpt,Nbtri,Coorneu,Refneu,Numtri,Reftri,Nbaretes,Numaretes,Refaretes]=lecture_msh(nom_maillage);
-Refneu = Refneu~=0;
 
 % ----------------------
 % calcul des matrices EF
@@ -58,8 +57,10 @@ LL = MM*FF;
 
 % Projection sur l espace V_0
 % matrice de projection 
-N0 = Nbpt-sum(Refneu);
-PP = [zeros(N0,sum(Refneu)) eye(N0)];
+N0 = Nbpt-sum(Refneu~=0);
+I = [1:N0];
+J = [(sum(Refneu~=0)+1):(Nbpt)];
+PP = sparse(I,J,1);
 AA = MM+KK;
 AA0 = PP*AA*PP';
 LL0 = PP*LL;
@@ -89,7 +90,7 @@ EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU);
 log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)))
 % attention de bien changer le terme source (dans FF)
 end
-if 1
+if 0
     h = [0.2;0.1;0.05;0.025];
     err_L2 = [-2.1850;-3.5005;-4.8852;-6.2674];
     err_H1 = [-2.1776;-3.4338;-4.8443;-6.1908];

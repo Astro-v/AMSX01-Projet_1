@@ -10,6 +10,7 @@
 %
 % =====================================================
 
+clear();
 
 % lecture du maillage et affichage
 % ---------------------------------
@@ -83,7 +84,7 @@ EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU);
 log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)))
 % attention de bien changer le terme source (dans FF)
 end
-if 1
+if 0
     h = [0.2;0.1;0.05;0.025;0.0125];
     err_L2 = [-0.2706;-2.0385;-4.0938;-5.7271;-7.1242];
     err_H1 = [-1.7637;-2.9095;-4.2399;-5.5142;-6.6609];
