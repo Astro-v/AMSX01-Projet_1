@@ -13,7 +13,7 @@
 
 % lecture du maillage et affichage
 % ---------------------------------
-nom_maillage = 'geomCarre_per0025.msh';
+nom_maillage = 'geomCarre_per01.msh';
 [Nbpt,Nbtri,Coorneu,Refneu,Numtri,Reftri,Nbaretes,Numaretes,Refaretes]=lecture_msh(nom_maillage);
 % ----------------------
 % calcul des matrices EF
@@ -87,18 +87,21 @@ if strcmp(validation,'oui')
     UU_exact = sin(pi*Coorneu(:,1)+pi/2).*sin(pi*Coorneu(:,2)+pi/2);
     affiche(UU_exact, Numtri, Coorneu, sprintf('Periodique exact - %s', 'geomCarre\_per.msh'));
     % Calcul de l erreur L2
-    EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU)
-    log(sqrt(EE_L2/(UU_exact'*MM*UU_exact)));
+    EE_L2 = (UU_exact-UU)'*MM*(UU_exact-UU);
+    log(sqrt(EE_L2/(UU_exact'*MM*UU_exact)))
     % Calcul de l erreur H1
-    EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU)
-    log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)));
+    EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU);
+    log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)))
     % attention de bien changer le terme source (dans FF)
 end
-if 0
-    h = [0.2;0.1;0.05;0.025];
-    err_L2 = [-3.0991;-4.4263;-5.8235;-7.2133];
-    err_H1 = [-3.0204;-4.2248;-5.4403;-6.6234];
+if 1
+    h = [0.2;0.1;0.05;0.025;0.0125];
+    err_L2 = [-3.0991;-4.4263;-5.8235;-7.2133;-8.6033];
+    err_H1 = [-3.0204;-4.2248;-5.4403;-6.6234;-7.5693];
     h = log(1./h);
+    
+    P = polyfit(h,err_L2,1);P(1)
+    P = polyfit(h,err_H1,1);P(1)
 
     figure()
     plot(h,err_L2,h,err_H1)

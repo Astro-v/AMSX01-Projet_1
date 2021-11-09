@@ -13,9 +13,9 @@ function val = f(x,y)
 %A COMPLETER
 %val = (1+2*pi^2)*cos(pi*x).*cos(pi*y);
 %val = cos(2*pi*x).*cos(2*pi*y)+16*pi^2*(cos(2*pi*x).*cos(2*pi*y).*(sin(2*pi*x).*sin(2*pi*y)+1));
-%val = (1+5*pi^2)*sin(pi*x).*sin(2*pi*y);
+val = (1+5*pi^2)*sin(pi*x).*sin(2*pi*y); % Dirichlet
 
-val = (1+2*pi^2)*sin(pi*x+pi/2).*sin(pi*y+pi/2);
+%val = (1+2*pi^2)*sin(pi*x+pi/2).*sin(pi*y+pi/2); % Periodique
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

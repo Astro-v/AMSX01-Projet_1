@@ -90,11 +90,14 @@ EE_H1 = (UU_exact-UU)'*(KKb)*(UU_exact-UU);
 log(sqrt(EE_H1/(UU_exact'*(KKb)*UU_exact)))
 % attention de bien changer le terme source (dans FF)
 end
-if 0
-    h = [0.2;0.1;0.05;0.025];
-    err_L2 = [-2.1850;-3.5005;-4.8852;-6.2674];
-    err_H1 = [-2.1776;-3.4338;-4.8443;-6.1908];
+if 1
+    h = [0.2;0.1;0.05;0.025;0.0125];
+    err_L2 = [-2.1850;-3.5005;-4.8852;-6.2674;-7.6585];
+    err_H1 = [-2.1776;-3.4338;-4.8443;-6.1908;-7.4981];
     h = log(1./h);
+    
+    P = polyfit(h,err_L2,1);P(1)
+    P = polyfit(h,err_H1,1);P(1)
 
     figure()
     plot(h,err_L2,h,err_H1)
